@@ -2,26 +2,23 @@ import datetime
 import sys
 
 def run_chatbot():
-    exact_intents = {
-        "hello": "Greetings! Glad to chat with you today.",
-        "hi": "Hello there! How can I help you?",
-        "hey": "Hey! Up for a quick chat?",
-        "help": "I can assist you with basic navigation. Type 'exit' or 'bye' to quit.",
-        "weather": "The current system environment is a comfortable 22°C with 0% chance of rain inside this terminal.",
-        "forecast": "The upcoming conditions predict clear skies, high data throughput, and excellent processing speeds.",
-        "time": f"The current system timestamp is: {datetime.datetime.now().strftime('%H:%M:%S')}.",
-        "schedule": "Today's block is reserved for building logic foundations, refining code structures, and optimization.",
-        "motivate": "Remember: Before you manage the chaos of a probability engine, you must master the precision of a logic engine!",
-        "status": "System status is nominal. Logic gates are fully functional.",
-        "tip": "Engineering Tip: Always use hash maps or dictionaries for lookup tables. It keeps your complexity at O(1) instead of cascading into O(n) linear slowdowns.",
-        "tip1": "Logic Tip: Clean, sanitize, and normalize your inputs early (.strip().lower()) so your processing gates never have to guess.",
-        "tip2": "Design Tip: A rule-based program is a 'white box'. Total predictability means zero hallucination risk—essential for production engineering.",
-        "tip3": "Architecture Tip: Think of rule-based logic as a guardrail. In modern apps, these gates filter inputs before they ever touch an LLM core."
+    responses = {
+        responses = {
+        "hello": "Hey there, human! Glad you dropped by. Ready to look at some clean code?",
+        "hi": "Oh, hello! Let's see what logic gears we're turning today.",
+        "hey": "Yo! High-five for running a script that actually compiles on the first try.",
+        "help": "Don't panic! I can help you navigate this logic terminal. If you want to bail, just type 'exit' or 'bye'.",
+        "weather": "am sorry, i dont know about the weather but would definitely tell you about the cloud storages",
+        "forecast": "Clear skies ahead! Excellent processing speeds, high focus levels, and zero unexpected runtime errors.",
+        "time": f"Time flies when you're optimizing! It's currently {datetime.datetime.now().strftime('%I:%M %p')}. Sleep is for the weak, right?",
+        "schedule": "Today's schedule is to complete project 1 for DecodeLabs",
+        "motivate": "Keep pushing! Remember: Before you manage the chaos of a probability engine, you must master the absolute precision of a logic engine.",
+        "status": "All systems nominal. Logic gates are fully functional, guardrails are locked in, and the code is stable.",
+        "name": "I'm your Phase 1 Logic Engine! No mysterious AI hallucinations here—just pure, hard-coded, predictable engineering perfection.",
+        "tip": "Pro-tip: Always use hash maps or dictionaries for lookup tables. It keeps your code performing at instant O(1) constant time instead of dragging down to O(n) linear slowdowns."
     }
     
     exit_commands = {"exit", "bye", "quit", "goodbye"}
-    tip_keys = ["tip", "tip1", "tip2", "tip3"]
-    tip_counter = 0
     
     print("Chatbot: Hello! I am a rule-based AI assistant. How can I help you today?")
     
@@ -32,34 +29,24 @@ def run_chatbot():
             print("\nChatbot: Session interrupted. Goodbye!")
             sys.exit(0)
             
-        cleaned_input = raw_input.strip().lower()
+        user_input = raw_input.strip().lower()
         
-        if not cleaned_input:
+        if not user_input:
             continue
             
-        if cleaned_input in exit_commands:
+        if user_input in exit_commands:
             print("Chatbot: Goodbye! Have a great day ahead.")
             break
             
-        if "tip" in cleaned_input or "advice" in cleaned_input:
-            current_tip_key = tip_keys[tip_counter % len(tip_keys)]
-            print(f"Chatbot: {exact_intents[current_tip_key]}")
-            tip_counter += 1
-            continue
-            
-        response = exact_intents.get(cleaned_input)
-        if response:
-            print(f"Chatbot: {response}")
-            continue
-
-        if "weather" in cleaned_input or "rain" in cleaned_input or "temp" in cleaned_input:
-            print(f"Chatbot: {exact_intents['weather']}")
-        elif "time" in cleaned_input or "clock" in cleaned_input:
-            print(f"Chatbot: {exact_intents['time']}")
-        elif "name" in cleaned_input:
-            print("Chatbot: I am your Phase 1 Rule-Based Engine.")
-        else:
-            print("Chatbot: I'm sorry, I am a basic rule-based bot and I don't understand that command yet.")
+        default_fallback = (
+            responses["weather"] if any(w in user_input for w in ["weather", "rain", "temp"]) else
+            responses["time"] if any(t in user_input for t in ["time", "clock"]) else
+            responses["tip"] if "advice" in user_input else
+            "I'm sorry, I am a basic rule-based bot and I don't understand that command yet."
+        )
+        
+        reply = responses.get(user_input, default_fallback)
+        print(f"Chatbot: {reply}")
 
 if __name__ == "__main__":
     run_chatbot()
